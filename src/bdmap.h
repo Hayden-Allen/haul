@@ -71,6 +71,14 @@ namespace haul
 		{
 			return m_k2v.end();
 		}
+		auto begin() const
+		{
+			return m_k2v.begin();
+		}
+		auto end() const
+		{
+			return m_k2v.end();
+		}
 	protected:
 		K2V m_k2v;
 		V2K m_v2k;
