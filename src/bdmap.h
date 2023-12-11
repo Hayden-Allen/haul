@@ -5,6 +5,10 @@
 
 namespace haul
 {
+	// bidirectional map base
+	// inherited by:
+	//		bdmvmap_base
+	//		bduvmap_base
 	template<typename K, typename V, typename K2V, typename V2K>
 	class bdmap_base
 	{
@@ -84,6 +88,7 @@ namespace haul
 		V2K m_v2k;
 	};
 
+	// bidirectional multi-valued map base
 	template<typename K, typename V, typename K2V, typename V2K>
 	class bdmvmap_base : public bdmap_base<K, V, K2V, V2K>
 	{
@@ -175,21 +180,22 @@ namespace haul
 			}
 		}
 	};
-
+	// bidirectional map
 	template<typename K, typename V>
-	class bdmap final : public bdmvmap_base<K, V, std::map<K, V>, std::map<V, std::unordered_set<K>>>
+	class bdmap : public bdmvmap_base<K, V, std::map<K, V>, std::map<V, std::unordered_set<K>>>
 	{
 	public:
 		bdmap() {}
 	};
-
+	// bidirectional unordered_map
 	template<typename K, typename V>
-	class bdumap final : public bdmvmap_base<K, V, std::unordered_map<K, V>, std::unordered_map<V, std::unordered_set<K>>>
+	class bdumap : public bdmvmap_base<K, V, std::unordered_map<K, V>, std::unordered_map<V, std::unordered_set<K>>>
 	{
 	public:
 		bdumap() {}
 	};
 
+	// bidirectional unique-valued map base
 	template<typename K, typename V, typename K2V, typename V2K>
 	class bduvmap_base : public bdmap_base<K, V, K2V, V2K>
 	{
@@ -244,18 +250,18 @@ namespace haul
 	protected:
 		bduvmap_base() {}
 	};
-
+	// bidirectional unique-valued map
 	template<typename K, typename V>
 	class bduvmap final : public bduvmap_base<K, V, std::map<K, V>, std::map<V, K>>
 	{
 	public:
 		bduvmap() {}
 	};
-
+	// bidirectional unique-valued unique_map
 	template<typename K, typename V>
-	class bduuvmap final : public bduvmap_base<K, V, std::unordered_map<K, V>, std::unordered_map<V, K>>
+	class bduvumap final : public bduvmap_base<K, V, std::unordered_map<K, V>, std::unordered_map<V, K>>
 	{
 	public:
-		bduuvmap() {}
+		bduvumap() {}
 	};
 }
