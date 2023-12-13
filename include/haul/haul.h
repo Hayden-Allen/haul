@@ -17,6 +17,7 @@ typedef double f64;
 
 #include "../../src/bdmap.h"
 #include "../../src/typed.h"
+#include "../../src/parent.h"
 #include "../../src/point.h"
 #include "../../src/range.h"
 #include "../../src/rect.h"
