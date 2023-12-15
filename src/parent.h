@@ -10,7 +10,10 @@ namespace haul
 	public:
 		HAUL_DCM(parent);
 	protected:
-		parent() {}
+		template<typename... ARGS>
+		parent(ARGS&&... args) :
+			T(std::move(args)...)
+		{}
 		virtual ~parent() {}
 	};
-}
+} // namespace haul
