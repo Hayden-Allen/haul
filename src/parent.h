@@ -6,7 +6,7 @@ namespace haul
 	class parent : public T
 	{
 	public:
-		using super = T;
+		typedef T super;
 	public:
 		HAUL_DCM(parent);
 	protected:
