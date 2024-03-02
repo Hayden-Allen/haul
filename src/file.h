@@ -17,7 +17,7 @@ namespace haul
 	protected:
 		std::fstream m_file;
 	protected:
-		file(const std::string& fp, const std::ios_base::openmode& mode) :
+		file(std::string const& fp, std::ios_base::openmode const& mode) :
 			m_file(fp, mode)
 		{
 			HAUL_ASSERT(m_file.is_open());
@@ -30,7 +30,7 @@ namespace haul
 		std::vector<char> m_buf;
 		u64 m_pos;
 	public:
-		input_file(const std::string& fp) :
+		input_file(std::string const& fp) :
 			file(fp, std::ios::ate | std::ios::in | std::ios::binary),
 			m_pos(0)
 		{
@@ -55,7 +55,7 @@ namespace haul
 		{
 			const u8 val = m_buf[m_pos];
 			m_pos++;
-			return HAUL_CAST(T, val);
+			return HAUL_PUN(T, val);
 		}
 		template<typename T = u16>
 		T get16()
@@ -63,7 +63,8 @@ namespace haul
 			const u8 b0 = m_buf[m_pos + 0];
 			const u8 b1 = m_buf[m_pos + 1];
 			m_pos += 2;
-			return HAUL_CAST(T, ((u16)b0) | ((u16)b1 << 8));
+			u16 const tmp = ((u16)b0) | ((u16)b1 << 8);
+			return HAUL_PUN(T, tmp);
 		}
 		template<typename T = u32>
 		T get32()
@@ -73,7 +74,8 @@ namespace haul
 			const u8 b2 = m_buf[m_pos + 2];
 			const u8 b3 = m_buf[m_pos + 3];
 			m_pos += 4;
-			return HAUL_CAST(T, ((u32)b0) | ((u32)b1 << 8) | ((u32)b2 << 16) | ((u32)b3 << 24));
+			u32 const tmp = ((u32)b0) | ((u32)b1 << 8) | ((u32)b2 << 16) | ((u32)b3 << 24);
+			return HAUL_PUN(T, tmp);
 		}
 		template<typename T = u64>
 		T get64()
@@ -87,7 +89,8 @@ namespace haul
 			const u8 b6 = m_buf[m_pos + 6];
 			const u8 b7 = m_buf[m_pos + 7];
 			m_pos += 8;
-			return HAUL_CAST(T, ((u64)b0) | ((u64)b1 << 8) | ((u64)b2 << 16) | ((u64)b3 << 24) | ((u64)b4 << 32) | ((u64)b5 << 40) | ((u64)b6 << 48) | ((u64)b7 << 56));
+			u64 const tmp = ((u64)b0) | ((u64)b1 << 8) | ((u64)b2 << 16) | ((u64)b3 << 24) | ((u64)b4 << 32) | ((u64)b5 << 40) | ((u64)b6 << 48) | ((u64)b7 << 56);
+			return HAUL_PUN(T, tmp);
 		}
 		template<typename T>
 		void get(T* const buf, size_t count)
@@ -111,7 +114,7 @@ namespace haul
 	class output_file final : public file
 	{
 	public:
-		output_file(const std::string& fp) :
+		output_file(std::string const& fp) :
 			file(fp, std::ios::out | std::ios::binary)
 		{}
 		HAUL_DCM(output_file);
@@ -158,12 +161,12 @@ namespace haul
 			return *this;
 		}
 		template<typename T>
-		output_file& put(const T* const data, size_t count)
+		output_file& put(T const* const data, size_t count)
 		{
-			m_file.write(reinterpret_cast<const char* const>(data), count * sizeof(T) / sizeof(char));
+			m_file.write(reinterpret_cast<char const* const>(data), count * sizeof(T) / sizeof(char));
 			return *this;
 		}
-		output_file& put_string(const std::string& s)
+		output_file& put_string(std::string const& s)
 		{
 			const u64 len = s.size();
 			put64(len);
